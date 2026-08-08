@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="zh-CN">
+  <script src="https://lf-cdn.coze.cn/obj/unpkg/coze-space/page-editor-general-web/0.1.0-alpha.274555/dist/umd/index.js"></script><script src="https://lf-cdn.coze.cn/obj/unpkg/coze-webapp/console-bridge/0.0.1-alpha.22488f/dist/index.js"></script><script src="https://lf-cdn.coze.cn/obj/unpkg/coze-webapp/history-bridge/0.0.1-alpha.10bbfe/dist/index.min.js"></script><head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="description" content="Emma's English Daily Check-in - Learn English with Mimi & BunBun!" />
+    <title>Emma's English 🐱🐰</title>
+    <link rel="preconnect" href="https://fonts.googleapis.cn" />
+    <link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+    <link href="https://fonts.googleapis.cn/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles/main.css" />
+  </head>
+  <body>
+    <div id="app">
+      <!-- Screen: Family Code Input (shown on first visit) -->
+      <div id="screen-family-code" class="screen active">
+        <div class="family-code-container">
+          <div class="family-code-mascots">
+            <span class="mascot-character">🐱</span>
+            <span class="mascot-character" style="animation-delay:0.3s">🐰</span>
+          </div>
+          <h1 class="family-code-title">Emma's English</h1>
+          <p class="family-code-subtitle">请输入家庭码<br/>Enter Family Code</p>
+          <div class="family-code-input-wrapper">
+            <input type="text" id="family-code-input" class="family-code-input" placeholder="Family Code" maxlength="10" autocomplete="off" />
+            <button id="family-code-confirm" class="btn-primary family-code-btn">确认 Confirm</button>
+          </div>
+          <div id="family-code-error" class="family-code-error" style="display:none;">家庭码不对哦，再试试？</div>
+          <div class="family-code-hint">💡 家庭码是爸爸妈妈告诉你的数字哦~</div>
+        </div>
+      </div>
+
+      <!-- Navigation Bar -->
+      <nav class="nav-bar" style="display:none;" id="main-nav">
+        <div class="nav-brand">
+          <span class="nav-brand-mascot">🐱</span>
+          <span class="nav-brand-mascot" style="animation-delay:0.3s">🐰</span>
+          <span>Emma's English</span>
+        </div>
+        <div class="nav-actions">
+          <button class="nav-btn" id="nav-home" title="Home">🏠</button>
+          <button class="nav-btn" id="nav-words" title="Wrong Words">📖</button>
+        </div>
+      </nav>
+
+      <!-- Screen: Dashboard -->
+      <div id="screen-dashboard" class="screen active">
+        <div class="dashboard-header">
+          <div class="dashboard-mascot-row">
+            <span class="mascot-character">🐱</span>
+            <span class="mascot-character" style="animation-delay:0.3s">🐰</span>
+          </div>
+          <div class="dashboard-greeting" id="dashboard-greeting">Good morning, Emma! 🌞</div>
+          <div class="dashboard-subtitle">Ready for today's English adventure?</div>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-emoji">🐾</div>
+            <div class="stat-value" id="stat-streak">0</div>
+            <div class="stat-label">Streak 连续打卡</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-emoji">🐟</div>
+            <div class="stat-value" id="stat-energy">50</div>
+            <div class="stat-label">Energy 能量值</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-emoji">🏅</div>
+            <div class="stat-value" id="stat-total">0</div>
+            <div class="stat-label">Total 总打卡</div>
+          </div>
+        </div>
+
+        <!-- Today Checked-in Banner -->
+        <div id="checkedin-area" style="display: none;"></div>
+
+        <!-- Start Button Area -->
+        <div id="start-area">
+          <button class="start-btn" id="start-btn">
+            <span id="start-btn-text">🌟 Start Today's Adventure! 开始今日冒险</span>
+          </button>
+        </div>
+
+        <!-- Badge Wall -->
+        <div class="section-title">🏅 Badge Wall 勋章墙</div>
+        <div class="badge-grid" id="badge-grid"></div>
+
+        <!-- Reset Today Button (hidden, small) -->
+        <div class="admin-area">
+          <button class="admin-btn" id="btn-reset-today-direct">🔄 今日是否重置</button>
+        </div>
+      </div>
+
+      <!-- Screen: Step 1 - Warm-up -->
+      <div id="screen-step1" class="screen">
+        <div class="step-header">
+          <button class="back-btn" id="btn-step1-back">← Back</button>
+          <div class="step-indicator">
+            <div class="step-dot active"></div>
+            <div class="step-dot"></div>
+            <div class="step-dot"></div>
+            <div class="step-dot"></div>
+          </div>
+          <span class="step-label">Step 1: Warm-up 热身</span>
+        </div>
+
+        <div class="warmup-card">
+          <div class="warmup-emoji" id="warmup-emoji">
+            <span class="mascot-character">🐱</span>
+            <span class="mascot-character" style="animation-delay:0.3s">🐰</span>
+          </div>
+          <div class="warmup-title">Are you ready, Emma?</div>
+          <div class="warmup-info">
+            <div class="warmup-stat">
+              <div class="warmup-stat-value" id="warmup-streak">0</div>
+              <div class="warmup-stat-label">🐾 Streak Days 连续天数</div>
+            </div>
+            <div class="warmup-stat">
+              <div class="warmup-stat-value" id="warmup-energy">50</div>
+              <div class="warmup-stat-label">🐟 Energy 当前能量</div>
+            </div>
+          </div>
+          <div class="warmup-reward" id="warmup-reward">
+            🏅 All correct = +30 🐟 + Badge chance! 全对就能获得勋章！
+          </div>
+        </div>
+
+        <button class="action-btn primary" id="btn-step1-next">
+          📖 Let's Read!
+        </button>
+      </div>
+
+      <!-- Screen: Step 2 - Reading -->
+      <div id="screen-step2" class="screen">
+        <div class="step-header">
+          <button class="back-btn" id="btn-step2-back">← Back</button>
+          <div class="step-indicator">
+            <div class="step-dot done"></div>
+            <div class="step-dot active"></div>
+            <div class="step-dot"></div>
+            <div class="step-dot"></div>
+          </div>
+          <span class="step-label">Step 2: Reading 核心朗读</span>
+        </div>
+
+        <div class="step-mascot-guide">
+          <span class="mascot-character">🐰</span>
+          <span class="guide-text">Read carefully, Emma! 认真读一读吧~</span>
+        </div>
+
+        <div class="reading-card">
+          <div class="reading-theme" id="reading-theme"></div>
+          <div class="reading-content" id="reading-content"></div>
+          <button class="tts-btn" id="tts-btn">🔊 Listen 听朗读</button>
+        </div>
+
+        <!-- Speech Recognition Section -->
+        <div class="speech-section">
+          <button class="speech-btn" id="speech-btn">
+            <span class="speech-btn-icon">🎤</span>
+            <span class="speech-btn-text">Start Reading 开始朗读</span>
+          </button>
+          <div class="speech-status" id="speech-status"></div>
+          <div class="speech-animation" id="speech-animation" style="display: none;">
+            <div class="sound-wave">
+              <span></span><span></span><span></span><span></span><span></span>
+            </div>
+          </div>
+          <div class="speech-feedback" id="speech-feedback" style="display: none;">
+            <div class="feedback-header">
+              <span class="feedback-emoji">🌟</span>
+              <span class="feedback-title">Pronunciation Report 发音报告</span>
+            </div>
+            <div class="feedback-content" id="feedback-content"></div>
+            <div class="feedback-score" id="feedback-score"></div>
+            <div class="feedback-message" id="feedback-message"></div>
+          </div>
+        </div>
+
+        <div class="vocab-card">
+          <div class="vocab-title">📖 Key Words 难点词汇</div>
+          <div class="vocab-list" id="vocab-list"></div>
+        </div>
+
+        <button class="action-btn secondary" id="btn-step2-next">
+          ✅ I'm done! 我读完了，开始答题！
+        </button>
+      </div>
+
+      <!-- Screen: Step 3 - Quiz -->
+      <div id="screen-step3" class="screen">
+        <div class="step-header">
+          <button class="back-btn" id="btn-step3-back">← Back</button>
+          <div class="step-indicator">
+            <div class="step-dot done"></div>
+            <div class="step-dot done"></div>
+            <div class="step-dot active"></div>
+            <div class="step-dot"></div>
+          </div>
+          <span class="step-label">Step 3: Quiz 词汇闯关</span>
+        </div>
+
+        <div class="step-mascot-guide">
+          <span class="mascot-character">🐱</span>
+          <span class="guide-text">You can do it, Emma! 加油答题~</span>
+        </div>
+
+        <div class="quiz-progress" id="quiz-progress">Question 1 / 6</div>
+        <div class="quiz-passage-context" id="quiz-passage-context"></div>
+        <div class="quiz-card" id="quiz-card"></div>
+      </div>
+
+      <!-- Screen: Step 4 - Results -->
+      <div id="screen-step4" class="screen">
+        <div class="step-header">
+          <div class="step-indicator">
+            <div class="step-dot done"></div>
+            <div class="step-dot done"></div>
+            <div class="step-dot done"></div>
+            <div class="step-dot active"></div>
+          </div>
+          <span class="step-label">Step 4: Results 结果与奖励</span>
+        </div>
+
+        <div class="result-card">
+          <div class="result-emoji" id="result-emoji">🎉</div>
+          <div class="result-title" id="result-title">Amazing!</div>
+          <div class="result-subtitle" id="result-subtitle"></div>
+
+          <div class="result-score" id="result-score"></div>
+          <div class="result-energy" id="result-energy"></div>
+
+          <div id="result-badge-area"></div>
+
+          <div class="result-encouragement" id="result-encouragement"></div>
+
+          <div class="result-wrong-words" id="result-wrong-area" style="display: none;"></div>
+          <div class="result-mnemonic" id="result-mnemonic-area" style="display: none;"></div>
+        </div>
+
+        <div class="result-btn-group">
+          <button class="action-btn secondary" id="btn-result-retry">
+            🔄 Try Again 重新挑战
+          </button>
+          <button class="action-btn primary" id="btn-result-home">
+            🏠 Back to Home 回到首页
+          </button>
+        </div>
+      </div>
+
+      <!-- Screen: Wrong Words Notebook -->
+      <div id="screen-words" class="screen">
+        <div class="step-header">
+          <button class="back-btn" id="btn-words-back">⬅️</button>
+          <span class="step-label">📖 Wrong Words 错词本</span>
+        </div>
+
+        <div class="words-header">
+          <div class="wrong-words-header-mascot">
+            <span class="mascot-character">🐱</span>
+            <div class="words-title">📖 My Wrong Words 我的错词本</div>
+          </div>
+        </div>
+
+        <div class="words-empty" id="words-empty">
+          <div class="words-empty-emoji">🐱🐰</div>
+          <div class="words-empty-text">No wrong words yet! Emma is doing great! 还没有错词哦，Emma真棒！</div>
+        </div>
+
+        <div class="words-list" id="words-list"></div>
+      </div>
+
+      <!-- Confetti Canvas -->
+      <canvas id="confetti-canvas"></canvas>
+    </div>
+
+    <!-- Supabase JS SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+    <script src="js/data.js?v=20250807e"></script>
+    <script src="js/sync.js?v=20250807d"></script>
+    <script src="js/app.js?v=20250807d"></script>
+  </body>
+</html>
