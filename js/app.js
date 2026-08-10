@@ -197,17 +197,17 @@
   }
 
   // ===== Pick Passages & Questions =====
+  // Use date-based selection to ensure different passage every day
   function pickPassages() {
-    var available = PASSAGES.filter(function (p) {
-      return state.completed_passage_ids.indexOf(p.id) === -1;
-    });
-    if (available.length < 1) {
-      state.completed_passage_ids = [];
-      available = PASSAGES.slice();
+    var today = getToday();
+    // Simple hash of date string to get a deterministic index
+    var hash = 0;
+    for (var i = 0; i < today.length; i++) {
+      hash = ((hash << 5) - hash) + today.charCodeAt(i);
+      hash = hash & hash; // Convert to 32-bit integer
     }
-    // Shuffle and pick 1
-    var shuffled = available.sort(function() { return Math.random() - 0.5; });
-    return shuffled.slice(0, 1);
+    var index = Math.abs(hash) % PASSAGES.length;
+    return [PASSAGES[index]];
   }
 
   function buildQuizQuestions(passages) {
