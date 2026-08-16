@@ -5,8 +5,8 @@
 
 // ===== Configuration =====
 const SUPABASE_CONFIG = {
-  url: 'https://gftjoexdcawirpqxupkjl.supabase.co',
-  anonKey: 'sb_publishable_c9Zg-RsfvzVZjiBOY-Jzvg_8-5cN4ja',
+  url: 'https://gfjqexdcawlrpqxupkjl.supabase.co',
+  anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdmanFleGRjYXdscnBxeHVwa2psIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODYwNzU3MTEsImV4cCI6MjEwMTY1MTcxMX0.FBT0fqqnIheBKHtOGM1Us6r9poXiOs0hw7BE2jak8fc',
   tableName: 'ket_progress',
   familyCode: '1115' // Fixed family code
 };
