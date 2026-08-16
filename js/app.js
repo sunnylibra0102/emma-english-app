@@ -1215,7 +1215,11 @@
     }
 
     // Family code verified, proceed with normal init
-    initMainApp();
+    // Always initialize cloud sync on every load (not just first verification),
+    // so cross-device data stays in sync even after page refresh.
+    initSync().then(function() {
+      initMainApp();
+    });
   }
 
   function initFamilyCodeScreen() {
